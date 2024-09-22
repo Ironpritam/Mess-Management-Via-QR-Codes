@@ -1,0 +1,131 @@
+<!-- signup.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #2a3f54; /* Dark Blue */
+            color: #fff;
+        }
+
+        header {
+            background-color: #1b2838; /* Darker Blue */
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #1b2838; /* Darker Blue */
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .signup-container {
+            background-color: #34495e; /* Medium Blue */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+            margin: 100px auto;
+        }
+
+        h1 {
+            font-weight: bold;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #ecf0f1; /* Light Gray */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #ecf0f1; /* Light Gray */
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #bdc3c7; /* Lighter Gray */
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #27ae60; /* Green */
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #219a52; /* Darker Green */
+        }
+
+        .login-link {
+            color: #3498db; /* Blue */
+            text-decoration: none;
+            font-size: 0.9em;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            background-color: #27ae60; /* Green */
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .back-home:hover {
+            background-color: #219a52; /* Darker Green */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{% url 'home' %}" class="back-home">Back to Home</a>
+    </header>
+
+    <div class="signup-container">
+        <h1>Signup</h1>
+        <form method="post" action="{% url 'signup' %}">
+            {% csrf_token %}
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+
+            <input type="submit" value="Signup">
+        </form>
+
+        <a href="{% url 'login' %}" class="login-link">Already have an account? Login here</a>
+    </div>
+
+    <footer>
+          © 2023 IIT ROPAR Mess Management
+    </footer>
+</body>
+</html>

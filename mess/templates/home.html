@@ -1,0 +1,91 @@
+<!-- home.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mess Management System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #2a3f54; /* Dark Blue */
+            color: #fff;
+        }
+
+        header {
+            background-color: #1b2838; /* Darker Blue */
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #1b2838; /* Darker Blue */
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        h1 {
+            font-weight: bold;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #ecf0f1; /* Light Gray */
+        }
+
+        .nav-button {
+            background-color: #27ae60; /* Green */
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: inline-block;
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .nav-button:hover {
+            background-color: #219a52; /* Darker Green */
+        }
+
+        .contact-section {
+            margin-top: 30px;
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mess Management System</h1>
+        <a href="{% url 'home' %}" class="nav-button">Home</a>
+        <a href="{% url 'login' %}" class="nav-button">Login</a>
+        <a href="{% url 'signup' %}" class="nav-button">Signup</a>
+        <a href="#contact" class="nav-button">Contact</a>
+    </header>
+
+    <div>
+        <p>
+            Welcome to the Mess Management System. Efficiently manage meals, track consumption,
+            and streamline operations for a hassle-free mess experience.
+        </p>
+        <!-- Add additional content related to mess management here -->
+    </div>
+
+    <footer>
+        <div id="contact" class="contact-section">
+            <h2>Contact Us</h2>
+            <p>Email: contact@messmanagement.com</p>
+            <p>Phone: +123 456 7890</p>
+            <p>Address: Mess Management HQ, Ropar, India</p>
+        </div>
+    </footer>
+</body>
+</html>
