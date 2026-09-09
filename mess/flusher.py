@@ -1,35 +1,42 @@
-import csv
-from datetime import date
-from myapp.models import Student  # Replace 'myapp' with the actual name of your Django app
+"""
+Monthly Data Flusher & Exporter Script for SmartMess AI.
+Exports current month's attendance records to CSV and resets student meal data.
+"""
+import os
+import sys
+import django
 
-# Function to convert meal_data string to CSV format
-def convert_meal_data(meal_data):
-    return [int(digit) for digit in meal_data]
+# Setup Django Environment
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mess_manage.settings')
+django.setup()
 
-# Get all students
-students = Student.objects.all()
+from mess.models import Student
+from analytics_engine.report_generator import export_meal_data_to_csv, generate_monthly_analytics_summary
 
-# CSV file path
-csv_file_path = 'student_data.csv'
 
-# Open CSV file for writing
-with open(csv_file_path, 'w', newline='') as csv_file:
-    # Create a CSV writer
-    csv_writer = csv.writer(csv_file)
+def run_monthly_flush():
+    students = Student.objects.all()
+    print(f"[SmartMess AI] Found {students.count()} student records.")
 
-    # Write header row
-    header = ['Name', 'QR Code', 'Password', 'Meal Data']
-    csv_writer.writerow(header)
+    # 1. Export CSV
+    csv_path = export_meal_data_to_csv(list(students), csv_file_path="reports/monthly_mess_report.csv")
+    print(f"[SmartMess AI] Successfully exported monthly records to: {csv_path}")
 
-    # Write student data
-    for student in students:
-        # Convert meal_data to CSV format
-        meal_data_csv = convert_meal_data(student.meal_data)
+    # 2. Print Summary Analytics
+    summary = generate_monthly_analytics_summary(list(students))
+    print("\n--- Monthly Analytics Summary ---")
+    print(f"Total Enrolled Students : {summary['total_enrolled_students']}")
+    print(f"Total Breakfasts Served : {summary['monthly_totals']['breakfasts_served']}")
+    print(f"Total Lunches Served    : {summary['monthly_totals']['lunches_served']}")
+    print(f"Total Dinners Served    : {summary['monthly_totals']['dinners_served']}")
+    print(f"Total Meals Served      : {summary['monthly_totals']['total_meals_served']}")
+    print("---------------------------------\n")
 
-        # Write student details to CSV file
-        csv_writer.writerow([student.name, student.qr_code, student.password, meal_data_csv])
+    # 3. Reset Meal Data Strings
+    students.update(meal_data="0" * 31)
+    print("[SmartMess AI] Successfully reset all student meal_data bitmasks to zero for the new month.")
 
-# Set meal_data to "0"*31 for all students
-students.update(meal_data="0"*31)
 
-print(f'Data flushed to CSV file: {csv_file_path}')
+if __name__ == '__main__':
+    run_monthly_flush()

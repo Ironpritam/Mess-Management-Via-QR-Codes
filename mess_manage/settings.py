@@ -17,6 +17,11 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 QR_CODE_DIR = os.path.join(BASE_DIR, 'qr_codes')
 
+DATA_DIR = os.path.join(BASE_DIR, 'data')
+os.makedirs(DATA_DIR, exist_ok=True)
+REPORTS_DIR = os.path.join(BASE_DIR, 'reports')
+os.makedirs(REPORTS_DIR, exist_ok=True)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -26,7 +31,7 @@ SECRET_KEY = 'django-insecure-g4h(*t4k_c-_lgrsgzr@a_%)37li-e%(6k3iexne48v^si=wq&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -78,7 +83,7 @@ WSGI_APPLICATION = 'mess_manage.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(DATA_DIR, 'db.sqlite3'),
     }
 }
 

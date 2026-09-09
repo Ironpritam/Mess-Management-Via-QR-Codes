@@ -1,81 +1,142 @@
-<!-- vendorscan.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meals</title>
+    <title>SmartMess AI - Vendor QR Scanner</title>
     <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.75);
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-red: #f87171;
+            --accent-warning: #fbbf24;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.12);
+        }
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: radial-gradient(circle at top left, #0f172a, #1e1b4b);
+            color: var(--text-main);
             margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #2a3f54; /* Dark Blue */
-            color: #fff;
-        }
-
-        header {
-            background-color: #1b2838; /* Darker Blue */
             padding: 20px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            color: #007bff; /* Blue */
-        }
-
-        form {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-
-        input[type="file"] {
+        .container {
             width: 100%;
-            padding: 10px;
+            max-width: 600px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .header h2 {
+            color: var(--accent-blue);
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+        .file-dropzone {
+            border: 2px dashed var(--accent-blue);
+            border-radius: 12px;
+            padding: 30px;
             margin-bottom: 20px;
-            border: 1px solid #bdc3c7; /* Light Gray */
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: #27ae60; /* Green */
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
+            background: rgba(56, 189, 248, 0.05);
             cursor: pointer;
-            font-size: 1em;
+            transition: background 0.3s;
         }
-
-        input[type="submit"]:hover {
-            background-color: #219a52; /* Darker Green */
+        .file-dropzone:hover {
+            background: rgba(56, 189, 248, 0.1);
         }
-
-        p {
+        input[type="file"] {
+            display: none;
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: #fff;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.4);
+        }
+        .alert {
             margin-top: 20px;
-            font-weight: bold;
-            color: #dc3545; /* Red */
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .alert-success { background: rgba(74, 222, 128, 0.15); border: 1px solid var(--accent-green); color: var(--accent-green); }
+        .alert-warning { background: rgba(251, 191, 36, 0.15); border: 1px solid var(--accent-warning); color: var(--accent-warning); }
+        .alert-danger { background: rgba(248, 113, 113, 0.15); border: 1px solid var(--accent-red); color: var(--accent-red); }
+        .nav-link {
+            margin-top: 20px;
+            display: block;
+            color: var(--accent-blue);
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h2>Scan QR Code for meals</h2>
-    </header>
-    <form method="post" action="{% url 'vendorscan' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="qr_image">
-        <input type="submit" value="Scan for Meal">
-    </form>
-    {{ message }}
+    <div class="container">
+        <div class="header">
+            <h2>📷 Vendor Meal QR Scanner</h2>
+            <p style="color: var(--text-muted);">SmartMess AI Edge Scanner Terminal</p>
+        </div>
+
+        <div class="card">
+            <form method="post" action="{% url 'vendorscan' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="qr_input" class="file-dropzone" id="dropzone_label">
+                    📁 <strong>Click or Drag QR Image Here</strong>
+                    <br><span style="font-size: 0.85rem; color: var(--text-muted);" id="file_name_display">Supports PNG, JPG, JPEG</span>
+                </label>
+                <input type="file" name="qr_image" id="qr_input" accept="image/*" onchange="updateFileName(this)">
+
+                <button type="submit" class="btn-submit">🔍 Process & Scan Meal</button>
+            </form>
+
+            {% if message %}
+                {% if status_type == 'success' %}
+                    <div class="alert alert-success">✅ {{ message }}</div>
+                {% elif status_type == 'warning' %}
+                    <div class="alert alert-warning">⚠️ {{ message }}</div>
+                {% else %}
+                    <div class="alert alert-danger">❌ {{ message }}</div>
+                {% endif %}
+            {% endif %}
+
+            <a href="{% url 'home' %}" class="nav-link">← Return to Main Portal</a>
+        </div>
+    </div>
+
+    <script>
+        function updateFileName(input) {
+            if (input.files && input.files[0]) {
+                document.getElementById('file_name_display').textContent = "Selected: " + input.files[0].name;
+            }
+        }
+    </script>
 </body>
 </html>

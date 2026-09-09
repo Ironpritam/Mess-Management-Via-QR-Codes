@@ -1,28 +1,19 @@
-import pyqrcode
-import cv2
-import numpy as np
+"""
+QR Processing Proxy for Mess App.
+Delegates encoding and multi-backend decoding to vision_engine.
+"""
+from vision_engine.qr_detector import detect_and_decode_qr, generate_qr_code
+
 
 def encode(data):
-    qr_code = pyqrcode.create(data)
-    # qr.png("/qr_dir/horn.png", scale=6)
-    return qr_code
+    return generate_qr_code(data)
+
 
 def decode(qr_image):
-    # Convert the uploaded image from InMemoryUploadedFile to numpy array
-    nparr = np.frombuffer(qr_image.read(), np.uint8)
-    img_np = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-
-    # Convert from BGR to RGB if needed (depends on OpenCV version)
-    img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2RGB)
-
-    detector = cv2.QRCodeDetector()
-    data, vertices_array, binary_qrcode = detector.detectAndDecode(img_np)
-
-    if vertices_array is not None:
-        print("QRCode data:")
-        print(data)
+    data, meta = detect_and_decode_qr(qr_image)
+    if data:
+        print(f"[SmartMess AI CV Engine] Decoded QR via {meta.get('backend')}: {data}")
         return data
     else:
-        print("There was some error in decoding the QR code")
-
-    return None
+        print(f"[SmartMess AI CV Engine] QR Decode failed: {meta.get('error')}")
+        return None

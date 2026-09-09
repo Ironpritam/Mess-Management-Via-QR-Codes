@@ -1,6 +1,27 @@
-*.log
-*.pot
+# Python & Cache
 *.pyc
-__pycache__
-db.sqlite3
-media
+*.pyo
+*.pyd
+__pycache__/
+.pytest_cache/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Data & Database Storage
+# data/
+# *.sqlite3
+# db.sqlite3
+
+# Analytics & Export Reports
+reports/*.csv
+*.csv
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

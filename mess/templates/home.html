@@ -1,91 +1,125 @@
-<!-- home.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mess Management System</title>
+    <title>SmartMess AI - Institutional Mess Management Platform</title>
     <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.75);
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-purple: #c084fc;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.12);
+        }
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: radial-gradient(circle at center, #1e1b4b, #0f172a);
+            color: var(--text-main);
             margin: 0;
-            padding: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            background-color: #2a3f54; /* Dark Blue */
-            color: #fff;
+            align-items: center;
         }
-
-        header {
-            background-color: #1b2838; /* Darker Blue */
-            padding: 20px;
+        .hero {
             text-align: center;
+            max-width: 800px;
+            margin-bottom: 40px;
         }
-
-        footer {
-            background-color: #1b2838; /* Darker Blue */
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-            margin-top: auto;
+        .hero h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
         }
-
-        h1 {
-            font-weight: bold;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #ecf0f1; /* Light Gray */
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            line-height: 1.6;
         }
-
-        .nav-button {
-            background-color: #27ae60; /* Green */
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            margin-bottom: 10px;
+        .badge-tag {
             display: inline-block;
-            font-size: 1.2em;
-            margin-right: 10px;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            margin-bottom: 16px;
         }
-
-        .nav-button:hover {
-            background-color: #219a52; /* Darker Green */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            width: 100%;
+            max-width: 900px;
         }
-
-        .contact-section {
-            margin-top: 30px;
-            font-size: 1.1em;
-            line-height: 1.5;
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+        .card h3 {
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Mess Management System</h1>
-        <a href="{% url 'home' %}" class="nav-button">Home</a>
-        <a href="{% url 'login' %}" class="nav-button">Login</a>
-        <a href="{% url 'signup' %}" class="nav-button">Signup</a>
-        <a href="#contact" class="nav-button">Contact</a>
-    </header>
-
-    <div>
-        <p>
-            Welcome to the Mess Management System. Efficiently manage meals, track consumption,
-            and streamline operations for a hassle-free mess experience.
-        </p>
-        <!-- Add additional content related to mess management here -->
+    <div class="hero">
+        <span class="badge-tag">🎓 Indian Institute of Technology (IIT) Ropar</span>
+        <h1>SmartMess AI</h1>
+        <p>Enterprise Edge CV Attendance & Predictive Food Demand Analytics Platform</p>
     </div>
 
-    <footer>
-        <div id="contact" class="contact-section">
-            <h2>Contact Us</h2>
-            <p>Email: contact@messmanagement.com</p>
-            <p>Phone: +123 456 7890</p>
-            <p>Address: Mess Management HQ, Ropar, India</p>
+    <div class="grid">
+        <div class="card">
+            <h3>📷 Vendor Scanner</h3>
+            <p>Scan student QR passes in real-time, validate meal window, and prevent duplicate scans.</p>
+            <a href="{% url 'vendorscan' %}" class="btn">Launch Scanner</a>
         </div>
-    </footer>
+
+        <div class="card">
+            <h3>📊 Manager Analytics</h3>
+            <p>Predict upcoming meal turnout, estimate raw ingredients, and track waste metrics.</p>
+            <a href="{% url 'analytics' %}" class="btn">View AI Dashboard</a>
+        </div>
+
+        <div class="card">
+            <h3>🔑 Student Portal</h3>
+            <p>Access your digital QR meal pass, check meal consumption history, or sign up.</p>
+            <a href="{% url 'login' %}" class="btn">Student Login</a>
+        </div>
+    </div>
 </body>
 </html>
