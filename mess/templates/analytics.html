@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartMess AI - Predictive Analytics & Waste Forecasting</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-purple: #c084fc;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            margin-bottom: 30px;
+        }
+        .navbar h1 { margin: 0; font-size: 1.5rem; color: var(--accent-blue); }
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent-blue); }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .card h3 { margin-top: 0; color: var(--accent-blue); font-size: 1.2rem; }
+        .metric-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .metric-title { color: var(--text-muted); font-size: 0.9rem; }
+        .metric-value { font-size: 1.4rem; font-weight: 700; color: var(--accent-green); }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .badge-success { background: rgba(74, 222, 128, 0.2); color: var(--accent-green); }
+        .badge-warning { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th { color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>⚡ SmartMess AI Analytics</h1>
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'vendorscan' %}">Vendor Scanner</a>
+            <a href="{% url 'analytics' %}">AI Dashboard</a>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>📈 Tomorrow's AI Forecasted Turnout</h3>
+            <div class="metric-box">
+                <span class="metric-title">Breakfast Turnout</span>
+                <span class="metric-value">{{ forecast.forecasted_attendance.breakfast }}</span>
+            </div>
+            <div class="metric-box">
+                <span class="metric-title">Lunch Turnout</span>
+                <span class="metric-value">{{ forecast.forecasted_attendance.lunch }}</span>
+            </div>
+            <div class="metric-box">
+                <span class="metric-title">Dinner Turnout</span>
+                <span class="metric-value">{{ forecast.forecasted_attendance.dinner }}</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🌱 Food Waste & Cost Impact</h3>
+            <div class="metric-box">
+                <span class="metric-title">Prevented Food Waste</span>
+                <span class="metric-value">{{ forecast.waste_optimization.estimated_food_waste_prevented_kg }} kg</span>
+            </div>
+            <div class="metric-box">
+                <span class="metric-title">Estimated Daily Savings</span>
+                <span class="metric-value" style="color: var(--accent-purple);">₹ {{ forecast.waste_optimization.estimated_daily_savings_inr }}</span>
+            </div>
+            <div class="metric-box">
+                <span class="metric-title">Total Enrolled Students</span>
+                <span class="metric-value">{{ forecast.total_enrolled_students }}</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>🍲 Forecasted Ingredient Preparation</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Calculated raw quantities for forecasted meal turnout:</p>
+            <ul>
+                <li><strong>Lunch Rice:</strong> {{ forecast.ingredient_requirements.LUNCH.Rice_g }} kg</li>
+                <li><strong>Lunch Atta/Flour:</strong> {{ forecast.ingredient_requirements.LUNCH.Atta_g }} kg</li>
+                <li><strong>Dinner Paneer:</strong> {{ forecast.ingredient_requirements.DINNER.Paneer_g }} kg</li>
+                <li><strong>Breakfast Milk:</strong> {{ forecast.ingredient_requirements.BREAKFAST.Milk_L }} L</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>📋 Real-Time Meal Audit Logs</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Student Name</th>
+                    <th>Meal Type</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tx in recent_transactions %}
+                <tr>
+                    <td>{{ tx.timestamp|date:"Y-m-d H:i:s" }}</td>
+                    <td>{{ tx.student.name }}</td>
+                    <td>{{ tx.meal_type }}</td>
+                    <td>
+                        {% if tx.status == 'SUCCESS' %}
+                        <span class="badge badge-success">SERVED</span>
+                        {% else %}
+                        <span class="badge badge-warning">{{ tx.status }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="color: var(--text-muted); text-align: center;">No transactions logged today yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

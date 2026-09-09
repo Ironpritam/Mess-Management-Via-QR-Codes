@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: smartmess_web
+    command: python main.py --web
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+
+  api:
+    build: .
+    container_name: smartmess_api
+    command: python main.py --api
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/app

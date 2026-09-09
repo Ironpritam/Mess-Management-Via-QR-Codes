@@ -1,0 +1,125 @@
+<!-- profile.html -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            background-color: #f2f2f2; /* Light Gray */
+            color: #333; /* Dark Gray */
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1b2838; /* Darker Blue */
+            padding: 20px;
+            text-align: center;
+        }
+
+        .user-info {
+            text-align: center;
+        }
+
+        .logout-button {
+            background-color: #dc3545; /* Red */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .logout-button:hover {
+            background-color: #c82333; /* Darker Red */
+        }
+
+        h1, h2 {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        img {
+            display: block;
+            margin: 20px auto;
+            border-radius: 50%;
+            max-width: 200px;
+            max-height: 200px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        th, td {
+            border: 1px solid #ccc; /* Light Gray */
+            text-align: center;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #007bff; /* Blue */
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* Light Gray */
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="user-info">
+            <h1>Welcome, {{ user_name }}</h1>
+        </div>
+        <!-- Logout button -->
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+    </header>
+
+    <img src="{% static image_path %}" alt="Profile Image">
+
+    <!-- Display meal data -->
+    <h2>Meal Consumption Data</h2>
+    {% if meal_data %}
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Breakfast</th>
+                <th>Lunch</th>
+                <th>Dinner</th>
+            </tr>
+            {% for meal in meal_data %}
+                <tr>
+                    <td>Day {{ forloop.counter }}</td>
+                    <td>{% if meal == "1" or meal == "3" or meal == "5" or meal == "7" %}X{% endif %}</td>
+                    <td>{% if meal == "2" or meal == "3" or meal == "6" or meal == "7" %}X{% endif %}</td>
+                    <td>{% if meal == "4" or meal == "5" or meal == "6" or meal == "7" %}X{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No meal data available.</p>
+    {% endif %}
+    <!-- Other profile information or sections can be added here -->
+</body>
+</html>
