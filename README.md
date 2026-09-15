@@ -1,6 +1,6 @@
 # SmartMess AI: Edge CV & Predictive Analytics Mess Management System
 
-> An enterprise-grade Computer Vision and AI-driven institutional dining platform developed at **IIT Ropar**. Features edge QR-pass authentication, multi-backend low-light computer vision decoders, $O(1)$ bitwise meal tracking & anti-fraud verification, AI food waste demand forecasting, FastAPI REST microservices, and interactive vendor management dashboards.
+> AI-enabled institutional dining management system combining edge computer vision, meal tracking and demand forecasting platform developed at **IIT Ropar**. Features edge QR-pass authentication, multi-backend low-light computer vision decoders, $O(1)$ bitwise meal tracking & anti-fraud verification, AI food waste demand forecasting, FastAPI REST microservices, and interactive vendor management dashboards.
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Django 4.2](https://img.shields.io/badge/Django-4.2%2B-092E20.svg)](https://www.djangoproject.com/)
